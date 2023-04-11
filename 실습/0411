@@ -1,0 +1,46 @@
+create table newbook (bookid number PRIMARY KEY, bookname varchar2(20) not null, publisher VARCHAR(20) unique, price number DEFAULT 10000 CHECK(price>1000));
+
+select * from newbook;
+
+create table NewCustomer (custid number primary key, name varchar2(40), address varchar2(40), phone varchar2(30));
+
+create table NewOrders(orderid number, custid number not null, bookid number not null, saleprice number, orderdate date, PRIMARY key(orderid), FOREIGN key(custid) references NewCustomer(custid) on delete cascade);
+
+alter table newbook add isbn VARCHAR2(13);
+
+alter table newbook modify isbn number;
+
+drop table newbook;
+
+select * from book;
+
+insert into book(bookid, bookname, publisher, price) values(11, '스포츠 의학',' 한솔의학서적','90000');
+
+insert into book(bookid, bookname, publisher) values(14, '스포츠 의학','한솔의학서적');
+
+select * from imported_book;
+
+insert into (bookid, bookname, price, publisher) select bookid, bookname, price, publisher from imported_book;
+
+update customer set address=(select address from customer where name='김연아') where name='박세리';
+
+rollback;
+______________
+
+insert into book(bookname,publisher,price)values('스포츠 세계','대한미디어','10000'); /*무결성 위반 primary key 값이 들어있는 bookid를 추가로 삽입 하여야한다.*/
+
+delete from book where publisher='삼성당';
+
+delete from book where publisher='이상미디어'; /*제약조건에서 설명 하라고 한다면 외래키 위반으로 삭제 불가.*/
+
+update book set publisher='대한미디어' where publisher='대한출판사';
+
+create table bookcompany(
+name varchar2(20),
+address varchar2(20),
+begin date);
+
+ALter table bookcompany add webaddress varchar2(30);
+
+insert into bookcompany(name,address,begin,webaddress)
+values('한빛아카데미','서울시 마포구','1993-01-01','http://hanbit.co.kr');
